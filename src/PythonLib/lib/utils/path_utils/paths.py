@@ -23,6 +23,7 @@ def get_datasets_path(dir: str = ".", recursion_level: int = 0) -> str:
 
 
 DATASETS = get_datasets_path()
+detoxis = os.path.join(DATASETS, "detoxis")
 temp_datasets = os.path.join(DATASETS, temp_folder_name)
 processed_datasets = os.path.join(DATASETS, processed_folder_name)
 

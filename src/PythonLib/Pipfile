@@ -8,6 +8,8 @@ pandas = "*"
 autopep8 = "*"
 ipykernel = "*"
 openpyxl = "*"
+nltk = "*"
+sklearn = "*"
 
 [dev-packages]
 
