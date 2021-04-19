@@ -5,12 +5,13 @@ import re
 import pandas as pd
 from nltk import word_tokenize
 from nltk.corpus import stopwords
-from nltk.stem import SnowballStemmer, WordNetLemmatizer
-from sklearn.feature_extraction.text import TfidfVectorizer
+from nltk.stem import SnowballStemmer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from utils.path_utils import paths
 
-
 # %%
+
+
 def read_train_dataset():
     train_dataset_path = os.path.join(paths.detoxis, "train.csv")
     df = pd.read_csv(train_dataset_path)
@@ -38,6 +39,7 @@ def delete_puntuaction_marks(comment):
 
 def stemmer(comment):
     stemmer = SnowballStemmer('spanish')
+
     stemmed_text = [stemmer.stem(i) for i in word_tokenize(comment)]
     return " ".join(stemmed_text)
 
@@ -96,19 +98,20 @@ keep_cols = ["thread_id", "comment_id", "reply_to",
              "toxicity_level"]
 df = df[keep_cols]
 # %%
-df
-# %%
-
 tfidf_vectorizer = TfidfVectorizer()
-tfidf_vectorizer.fit(df["comment_preprocessed"])
-
+tfidf_vectorizer_vectors = tfidf_vectorizer.fit_transform(
+    df["comment_preprocessed"])
 # %%
-first_vector_tfidfvectorizer = df[0]
+first_vector_tfidfvectorizer = tfidf_vectorizer_vectors[1]
 
 # place tf-idf values in a pandas data frame
-df_1 = pd.DataFrame(first_vector_tfidfvectorizer.T.todense(),
-                    index=tfidf_vectorizer.get_feature_names(),
-                    columns=["tfidf"])
-df.sort_values(by=["tfidf"], ascending=False)
-
+df1 = pd.DataFrame(first_vector_tfidfvectorizer.T.todense(),
+                   index=tfidf_vectorizer.get_feature_names(), columns=["tfidf"])
+df1 = df1.sort_values(by=["tfidf"], ascending=False)
+df1.head()
 # %%
+# Bag of words
+bag_vectorizer = CountVectorizer()
+bag_vectorizer.fit(df["comment_preprocessed"])
+X_bag_of_words = bag_vectorizer.transform(df["comment_preprocessed"])
+X_bag_of_words
