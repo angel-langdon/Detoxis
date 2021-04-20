@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "02287727f6d490342fdae3aeb0b85d40a35e60c07722c09ee32d7ebc7a25819b"
+            "sha256": "dadd5c7668ee337e9b7c37441b245d9ddcf5fd6b1650d28c6d296f5fb18ee5b1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -61,6 +61,22 @@
             ],
             "version": "==1.0.1"
         },
+        "gensim": {
+            "hashes": [
+                "sha256:17375b33685d0b36646ff6cec5c9e54c7384d3a7c583cbb4480a8ceb9d811221",
+                "sha256:3691ddda33113a713453a9601ae2b21d297a5c197073eef641ae15d6968a92c1",
+                "sha256:4cb1761a76338abd6c9345cfacdb75173961e238e01258e0c0e599341d397016",
+                "sha256:5c0cb64d8c6df7e61497cc9d23fdbf552eb18d6d39341271b647d2e84d970e00",
+                "sha256:a78e9f51ec87930a7a621c6536c20aac41d35aea52f6b0eae165254dc908ff1b",
+                "sha256:ac146eadb15c197eed99280d91ddaed44f3bac099cb32f790476922b203deefd",
+                "sha256:b4d0b9562796968684028e06635e0f7aff39ffb33719057fd1667754ea09a6e4",
+                "sha256:c748b77082125ada8ccbf7b1de9e60b7c726b5371a17f207234fee66fb32da05",
+                "sha256:f1200f3cc6449fc4d90c052911cee8876178adc4afbf756a77207b8ee5fb3967",
+                "sha256:fd23b1e19bf0cfaf37ce635b5a91d8ae4e3be7886e04bfb57e61d044995c6ed8"
+            ],
+            "index": "pypi",
+            "version": "==4.0.1"
+        },
         "ipykernel": {
             "hashes": [
                 "sha256:21abd584543759e49010975a4621603b3cf871b1039cb3879a14094717692614",
@@ -118,11 +134,11 @@
         },
         "nltk": {
             "hashes": [
-                "sha256:1235660f52ab10fda34d5277096724747f767b2903e1c0c4e14bde013552c9ba",
-                "sha256:cbc2ed576998fcf7cd181eeb3ca029e5f0025b264074b4beb57ce780673f8b86"
+                "sha256:240e23ab1ab159ef9940777d30c7c72d7e76d91877099218a7585370c11f6b9e",
+                "sha256:57d556abed621ab9be225cc6d2df1edce17572efb67a3d754630c9f8381503eb"
             ],
             "index": "pypi",
-            "version": "==3.6.1"
+            "version": "==3.6.2"
         },
         "numpy": {
             "hashes": [
@@ -415,6 +431,14 @@
             ],
             "index": "pypi",
             "version": "==0.0"
+        },
+        "smart-open": {
+            "hashes": [
+                "sha256:02e5e02207d955a1f9fd924c37900ac272536bd24393ae731b6945d4f766015f",
+                "sha256:ed310ac51a797051b42f9437a566ac8149a3abf8c80ab994a8bd92d96fb7cf44"
+            ],
+            "markers": "python_version >= '3.6'",
+            "version": "==5.0.0"
         },
         "threadpoolctl": {
             "hashes": [

@@ -10,6 +10,7 @@ ipykernel = "*"
 openpyxl = "*"
 nltk = "*"
 sklearn = "*"
+gensim = "*"
 
 [dev-packages]
 
