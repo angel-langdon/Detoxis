@@ -76,7 +76,7 @@ class SVMClassifier(Baseline):
     def __init__(self):
         super(SVMClassifier, self).__init__()
         self.tfidf = TfidfVectorizer(ngram_range=(1, 1))
-        self.clf = SVC(gamma="auto")
+        self.clf = SVC()
 
     def fit(self, X, y):
         X = clean_comments(X)

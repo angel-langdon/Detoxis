@@ -30,7 +30,7 @@ def clean_comments(X):
         expr = f'''({"|".join([urls,
                                users,
                                emojis,
-                               hashtags])})'''
+                               hashtags])})+'''
         string = re.sub(expr, " ", string)
         string = " ".join(re.findall("\w+", string))
         string = re.sub("[0-9]+", "", string)
