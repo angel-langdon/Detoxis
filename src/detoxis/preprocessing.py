@@ -62,12 +62,13 @@ def clean_comments(X):
 
 df = pd.read_csv("data/train.csv")
 df["comment"] = clean_comments(df["comment"])
+df.to_csv("data/train_processed.csv")
 
 # %%
-X, Y = df["comment"], df["toxicity_level"]
+X, Y = df["comment"], df["toxicity"]
 x, x_test, y, y_test = train_test_split(X, Y, test_size=0.1, shuffle=True)
 # %%
-tfidf = TfidfVectorizer(ngram_range=(1, 1))
+tfidf = TfidfVectorizer(ngram_range=(1, 2))
 clf = SVC(C=10, kernel="linear", degree=11, class_weight="balanced")
 
 X_aux = tfidf.fit_transform(x, y)
