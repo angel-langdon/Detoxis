@@ -1,7 +1,6 @@
 import numpy as np
-
-from sklearn.metrics import f1_score
 from scipy.stats import pearsonr
+from sklearn.metrics import f1_score
 from sklearn.model_selection import StratifiedKFold
 
 
@@ -91,7 +90,8 @@ class Evaluator:
         labels = [0, 1, 2, 3]
         pred_cs = [list(y_pred).count(label) for label in labels]
 
-        estimated_probs = [get_estimated_prob(label, pred_cs) for label in labels]
+        estimated_probs = [get_estimated_prob(
+            label, pred_cs) for label in labels]
         relevances = [get_relevance(label) for label in labels]
 
         return get_score(y, y_pred)
@@ -108,7 +108,8 @@ class Evaluator:
 
         second_incosistency_msg = f'Prediction labels contain an invalid label ' \
                                   f'(valid_labels: [0, 1, 2, 3], predicted_labels: {list(set(y_pred))})'
-        assert np.alltrue(np.isin(y_pred, [0, 1, 2, 3])), second_incosistency_msg
+        assert np.alltrue(
+            np.isin(y_pred, [0, 1, 2, 3])), second_incosistency_msg
 
     def evaluate(self, y, y_pred):
         self._check_inconsistencies(y, y_pred)

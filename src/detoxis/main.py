@@ -10,13 +10,13 @@ def evaluate_baseline():
 
     print('\nReading training data...')
     data = read_processed_data('train.csv')
-    X = data['comment'].values
+    X = clean_comments(data['comment'].values)
     y = data['toxicity_level'].values
 
     print(f'\nPerforming cross-validation on multiple baselines...')
     # Possible baselines: RandomClassifier, BOWClassifier, ChainBOW, Word2VecSpacy, GloVeSBWC
-    baselines = [LRClassifier, SVMClassifier]
-    n_folds = 5
+    baselines = [SVMClassifier]
+    n_folds = 2
     for baseline in baselines:
         cross_validate(X, y, n_folds, baseline, seed)
 
