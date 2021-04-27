@@ -12,6 +12,7 @@ nltk = "*"
 sklearn = "*"
 gensim = "*"
 spacy = "*"
+stanza = "*"
 
 [dev-packages]
 
