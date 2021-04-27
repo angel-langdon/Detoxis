@@ -1,10 +1,13 @@
-import spacy
 import os
 import pickle
+import re
+
 import numpy as np
 import pandas as pd
-
+import spacy
+from preprocessing import clean_comments
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from utils.evaluation import Evaluator
 from utils.inout import write_results
@@ -39,7 +42,8 @@ class RandomClassifier(Baseline):
 class BOWClassifier(Baseline):
     def __init__(self):
         super(BOWClassifier, self).__init__()
-        self.tfidf = TfidfVectorizer(strip_accents='unicode', lowercase=True, ngram_range=(1, 2), max_features=5000)
+        self.tfidf = TfidfVectorizer(
+            strip_accents='unicode', lowercase=True, ngram_range=(1, 2), max_features=5000)
         self.classifier = SVC(kernel='linear')
 
     def fit(self, X, y):
@@ -49,6 +53,40 @@ class BOWClassifier(Baseline):
     def predict(self, X):
         X_aux = self.tfidf.transform(X)
         return self.classifier.predict(X_aux)
+
+
+class LRClassifier(Baseline):
+    def __init__(self):
+        super(LRClassifier, self).__init__()
+        self.tfidf = TfidfVectorizer(ngram_range=(1, 1))
+        self.clf = LogisticRegression(C=12, max_iter=1000)
+
+    def fit(self, X, y):
+        X = clean_comments(X)
+        X_aux = self.tfidf.fit_transform(X, y)
+        self.clf.fit(X_aux, y)
+
+    def predict(self, X):
+        X = clean_comments(X)
+        X_aux = self.tfidf.transform(X)
+        return self.clf.predict(X_aux)
+
+
+class SVMClassifier(Baseline):
+    def __init__(self):
+        super(SVMClassifier, self).__init__()
+        self.tfidf = TfidfVectorizer(ngram_range=(1, 1))
+        self.clf = SVC(gamma="auto")
+
+    def fit(self, X, y):
+        X = clean_comments(X)
+        X_aux = self.tfidf.fit_transform(X, y)
+        self.clf.fit(X_aux, y)
+
+    def predict(self, X):
+        X = clean_comments(X)
+        X_aux = self.tfidf.transform(X)
+        return self.clf.predict(X_aux)
 
 
 class ChainBOW(Baseline):
@@ -93,26 +131,29 @@ class Word2VecSpacy(Baseline):
 class GloVeSBWC(Baseline):
     def __init__(self):
         super(GloVeSBWC, self).__init__()
-        glove_file = './data/glove-sbwc.pkl'
+        glove_file = './data/embeddings-l-model.vec'
         if not os.path.isfile(glove_file):
             glove_file_aux = './data/glove-sbwc.i25.vec'
             with open(glove_file_aux, 'r', encoding='utf-8') as f:
                 self.n_tokens, self.vec_dim = next(f)[:-1].split(' ')
-                self.glove_vecs = pd.read_csv(f, sep=" ", index_col=0, header=None)
+                self.glove_vecs = pd.read_csv(
+                    f, sep=" ", index_col=0, header=None)
                 self.glove_vecs = self.glove_vecs.T.to_dict('list')
             with open(glove_file, 'wb') as f:
                 pickle.dump(self.glove_vecs, f)
         else:
             with open(glove_file, 'rb') as f:
                 self.glove_vecs = pickle.load(f)
-            self.n_tokens, self.vec_dim = len(self.glove_vecs), len(self.glove_vecs['de'])
+            self.n_tokens, self.vec_dim = len(
+                self.glove_vecs), len(self.glove_vecs['de'])
         self.nlp = spacy.load("es_core_news_lg")
         self.classifier = SVC(kernel='linear')
 
     def _sent2vec(self, sent):
         vec = np.zeros((self.vec_dim,))
         for tok in sent:
-            vec += self.glove_vecs.get(tok.text.lower(), np.zeros((self.vec_dim,)))
+            vec += self.glove_vecs.get(tok.text.lower(),
+                                       np.zeros((self.vec_dim,)))
         return vec / len(sent)
 
     def fit(self, X, y):

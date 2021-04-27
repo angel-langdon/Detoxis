@@ -11,6 +11,7 @@ openpyxl = "*"
 nltk = "*"
 sklearn = "*"
 gensim = "*"
+spacy = "*"
 
 [dev-packages]
 

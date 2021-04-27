@@ -15,8 +15,7 @@ def evaluate_baseline():
 
     print(f'\nPerforming cross-validation on multiple baselines...')
     # Possible baselines: RandomClassifier, BOWClassifier, ChainBOW, Word2VecSpacy, GloVeSBWC
-    baselines = [RandomClassifier, BOWClassifier,
-                 ChainBOW, Word2VecSpacy, GloVeSBWC]
+    baselines = [LRClassifier, SVMClassifier]
     n_folds = 5
     for baseline in baselines:
         cross_validate(X, y, n_folds, baseline, seed)
