@@ -2,16 +2,11 @@
 
 import re
 
-import pandas as pd
 import stanza
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
-
-from utils.evaluation import Evaluator
 
 
 def clean_comments(X):
@@ -56,27 +51,3 @@ def clean_comments(X):
     X = X.copy()
 
     return [clean(c) for c in X]
-
-
-# %%
-
-df = pd.read_csv("data/train.csv")
-df["comment"] = clean_comments(df["comment"])
-df.to_csv("data/train_processed.csv")
-
-# %%
-X, Y = df["comment"], df["toxicity"]
-x, x_test, y, y_test = train_test_split(X, Y, test_size=0.1, shuffle=True)
-# %%
-tfidf = TfidfVectorizer(ngram_range=(1, 2))
-clf = SVC(C=10, kernel="linear", degree=11, class_weight="balanced")
-
-X_aux = tfidf.fit_transform(x, y)
-clf.fit(X_aux, y)
-# %%
-pred = clf.predict(tfidf.transform(x_test))
-evaluator = Evaluator()
-evaluator.evaluate(pred, y_test)
-
-
-# %%

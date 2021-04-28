@@ -1,10 +1,5 @@
-import os
-import pickle
-import re
-
 import numpy as np
-import pandas as pd
-import spacy
+from bert_sklearn import BertClassifier, load_model
 from preprocessing import clean_comments
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -78,12 +73,27 @@ class SVMClassifier(Baseline):
         self.clf = SVC(kernel="linear")
 
     def fit(self, X, y):
+        X = clean_comments(X)
         X_aux = self.tfidf.fit_transform(X, y)
         self.clf.fit(X_aux, y)
 
     def predict(self, X):
+        X = clean_comments(X)
         X_aux = self.tfidf.transform(X)
         return self.clf.predict(X_aux)
+
+
+class BertClassifier(Baseline):
+    def __init__(self):
+        super(BertClassifier, self).__init__()
+        self.tfidf = TfidfVectorizer(ngram_range=(1, 5), max_features=20000)
+        self.clf = BertClassifier()
+
+    def fit(self, X, y):
+        self.clf.fit(X, y)
+
+    def predict(self, X):
+        return self.clf.predict(X)
 
 
 class NBClassifier(Baseline):
