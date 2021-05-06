@@ -2,6 +2,7 @@
 
 import re
 
+import pandas as pd
 import stanza
 from nltk import word_tokenize
 from nltk.corpus import stopwords
