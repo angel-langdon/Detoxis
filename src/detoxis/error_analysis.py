@@ -3,10 +3,9 @@ import pandas as pd
 
 toxic_path = "./data/error_toxic.xlsx"
 toxicity_level_path = "./data/error_toxicicty_level.xlsx"
-# %%
 
 
-def separate_bad_leveled_rows(path):
+def separate_bad_labeled_rows(path):
     df = pd.read_excel(path)
     error_cols = [col for col in df.columns if "error" in col]
     bad_dfs = []
@@ -49,5 +48,6 @@ error_percentages = get_error_percentages(df, "toxicity_level")
 errors_rows.append(error_percentages)
 
 # %%
-pd.DataFrame(errors_rows).to_excel("./data/errors_analysis_summary.xlsx")
+pd.DataFrame(errors_rows).to_excel("./data/errors_analysis_summary.xlsx",
+                                   index=False)
 # %%
