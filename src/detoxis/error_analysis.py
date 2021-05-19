@@ -38,16 +38,16 @@ def get_error_percentages(df: pd.DataFrame, task):
 
 
 errors_rows = []
-df = preprocess_errors_excel(toxic_path)
+df = pd.read_excel(toxic_path)
 error_percentages = get_error_percentages(df, "toxicity")
 errors_rows.append(error_percentages)
 
 # %%
-df = preprocess_errors_excel(toxicity_level_path)
+df = pd.read_excel(toxicity_level_path)
 error_percentages = get_error_percentages(df, "toxicity_level")
 errors_rows.append(error_percentages)
 
 # %%
-pd.DataFrame(errors_rows).to_excel("./data/errors_analysis_summary.xlsx",
-                                   index=False)
-# %%
+errors_summary = pd.DataFrame(errors_rows)
+errors_summary.to_excel("./data/errors_analysis_summary.xlsx",
+                        index=False)
